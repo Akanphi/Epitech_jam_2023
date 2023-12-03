@@ -41,6 +41,9 @@ typedef struct meteor
     sfVector2f pos_fire2;
     sfVector2f pos_scr;
     int goal;
+    int a;
+    int b;
+    int c;
     double nbr;
 } meteor_t;
 void speed(meteor_t *win);

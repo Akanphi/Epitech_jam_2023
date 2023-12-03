@@ -31,19 +31,22 @@ char *main1(int nb)
 void mv_fire1(meteor_t *win)
 {
     if (win->pos_fire1.y < 600)
-        win->pos_fire1.y += 20;
+        win->pos_fire1.y += win->a;
     else {
         win->goal++;
         win->pos_fire1.y = -78;
         win->pos_fire1.x = (rand() % (800 - 5 + 1)) + 5;
     }
     sfSprite_setPosition(win->spt_fire1, win->pos_fire1);
+    if (win->goal % 9 == 0) {
+        win->a += 1;
+    }
 }
 
 void mv_fire(meteor_t *win)
 {
     if (win->pos_fire.y < 600)
-        win->pos_fire.y += 20;
+        win->pos_fire.y += win->b;
     else {
         win->goal++;
         win->pos_fire.y = -78;
@@ -51,26 +54,27 @@ void mv_fire(meteor_t *win)
     }
     sfSprite_setPosition(win->spt_fire, win->pos_fire);
     if (win->pos_fire2.y < 600)
-        win->pos_fire2.y += 20;
+        win->pos_fire2.y += win->c;
     else {
         win->goal++;
         win->pos_fire2.y = -78;
         win->pos_fire2.x = (rand() % (800 - 5 + 1)) + 5;
     }
     sfSprite_setPosition(win->spt_fire2, win->pos_fire2);
+    if (win->goal % 9 == 0) {
+        win->b += 1;
+        win->c += 1;
+    }
 }
 
 int clock1(meteor_t *win)
 {
     win->times = sfClock_getElapsedTime(win->clock);
     win->seconds = win->times.microseconds / 100000.0;
-    if (win->goal == 9)
-        win->nbr = win->nbr / 2;
-    else {
-        if (win->seconds > win->nbr) {
-            mv_fire(win);
-            mv_fire1(win);
-            sfClock_restart(win->clock);
-        }
+    
+    if (win->seconds > 0.5) {
+        mv_fire(win);
+        mv_fire1(win);
+        sfClock_restart(win->clock);
     }
 }
