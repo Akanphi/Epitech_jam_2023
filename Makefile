@@ -16,7 +16,7 @@ CC =	gcc
 all: $(NAME)
 
 $(NAME):$(OBJS)
-	$(CC) -o $(NAME) $(OBJS) -lcsfml-graphics -lcsfml-audio -lcsfml-system
+	$(CC) -o $(NAME) $(OBJS) -lcsfml-graphics -lcsfml-audio -lcsfml-system -lcsfml-window
 
 clean:
 	rm -rf *.o
