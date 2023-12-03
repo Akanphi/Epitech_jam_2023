@@ -9,58 +9,73 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "my.h"
+void declare(game_t *play)
+{
+    play->window;
+    play->mode.width = 800;
+    play->mode.height = 600;
+    play->mode.bitsPerPixel = 32;
+    play->event;
+    play->texture = sfTexture_createFromFile("./espace.jpg", NULL);
+    play->texte = sfTexture_createFromFile("./quit.jpg", NULL);
+    play->text = sfTexture_createFromFile("./quit.jpg", NULL);
+    play->sprite = sfSprite_create();
+    play->sprit = sfSprite_create();
+    play->spri = sfSprite_create();
+    play->scale.x = 2;
+    play->scale.y = 2;
+    play->carre.left = 0;
+    play->carre.top = 0;
+    play->carre.width = 159;
+    play->carre.height = 40;
+    play->care.left = 159;
+    play->care.top = 120;
+    play->care.width = 159;
+    play->care.height = 40;
+    play->pos.x = 321;
+    play->pos.y = 280;
+    play->posi.x = 321;
+    play->posi.y = 220;
+    play->posa = sfSprite_getPosition(play->spri);
+    play->pose;
+}
 int main()
 {
-    sfRenderWindow* window;
-    sfVideoMode mode = {800, 600, 32};
-    sfEvent event;
-    sfTexture *texture = sfTexture_createFromFile("./espace.jpg", NULL);
-    sfTexture *texte = sfTexture_createFromFile("./quit.jpg", NULL);
-    sfTexture *text = sfTexture_createFromFile("./quit.jpg", NULL);
-    sfSprite *sprite = sfSprite_create();
-    sfSprite *sprit = sfSprite_create();
-    sfSprite *spri = sfSprite_create();
-    sfVector2f scale = {2, 2};
-    sfIntRect carre = {0, 0, 159, 40};
-    sfIntRect care = {159, 120, 159, 40};
-    sfVector2f pos = {321, 280};
-    sfVector2f posi = {321, 220};
-    sfVector2f posa = sfSprite_getPosition(spri);
-    sfVector2i pose;
+    game_t *play = malloc(sizeof(game_t));
 
-    sfSprite_setScale(sprite, scale);
-    sfSprite_setTexture(sprite, texture, sfTrue);
-    sfSprite_setTexture(sprit, texte, sfTrue);
-    sfSprite_setTexture(spri, text, sfTrue);
-    window = sfRenderWindow_create(mode, "rakib window", sfResize | sfClose, NULL);
-    while (sfRenderWindow_isOpen(window)){
-        while (sfRenderWindow_pollEvent(window, &event)){
-            if (event.type == sfEvtClosed){
-                sfRenderWindow_close(window);
+    declare(play);
+    sfSprite_setScale(play->sprite, play->scale);
+    sfSprite_setTexture(play->sprite, play->texture, sfTrue);
+    sfSprite_setTexture(play->sprit, play->texte, sfTrue);
+    sfSprite_setTexture(play->spri, play->text, sfTrue);
+    play->window = sfRenderWindow_create(play->mode, "rakib window", sfResize | sfClose, NULL);
+    while (sfRenderWindow_isOpen(play->window)){
+        while (sfRenderWindow_pollEvent(play->window, &play->event)){
+            if (play->event.type == sfEvtClosed){
+                sfRenderWindow_close(play->window);
             }
-            pose = sfMouse_getPositionRenderWindow(window);
-            //printf("xs = %f, ys = %f\n", posa.x, posa.y);
-            //printf("xm = %d, ym = %d\n", pose.x, pose.y);
-            if ((pose.x >= 323 && pose.x <= 480) && (pose.y >= 282 && pose.y <= 318)){
+            play->pose = sfMouse_getPositionRenderWindow(play->window);
+            if ((play->pose.x >= 323 && play->pose.x <= 480) && (play->pose.y >= 282 && play->pose.y <= 318)){
                 if (sfMouse_isButtonPressed(sfMouseLeft))
-                    sfRenderWindow_close(window);
+                    sfRenderWindow_close(play->window);
             }
         }
-        sfSprite_setTextureRect(sprit, carre);
-        sfSprite_setTextureRect(spri, care);
-        sfSprite_setPosition(sprit, pos);
-        sfSprite_setPosition(spri, posi);
-        sfRenderWindow_clear(window, sfWhite);
-        sfRenderWindow_drawSprite(window, sprite, NULL);
-        sfRenderWindow_drawSprite(window, sprit, NULL);
-        sfRenderWindow_drawSprite(window, spri, NULL);
-        sfRenderWindow_display(window);
+        sfSprite_setTextureRect(play->sprit, play->carre);
+        sfSprite_setTextureRect(play->spri, play->care);
+        sfSprite_setPosition(play->sprit, play->pos);
+        sfSprite_setPosition(play->spri, play->posi);
+        sfRenderWindow_clear(play->window, sfWhite);
+        sfRenderWindow_drawSprite(play->window, play->sprite, NULL);
+        sfRenderWindow_drawSprite(play->window, play->sprit, NULL);
+        sfRenderWindow_drawSprite(play->window, play->spri, NULL);
+        sfRenderWindow_display(play->window);
     }
-    sfSprite_destroy(sprite);
-    sfTexture_destroy(texture);
-    sfSprite_destroy(sprit);
-    sfTexture_destroy(texte);
-    sfSprite_destroy(spri);
-    sfTexture_destroy(text);
-    sfRenderWindow_destroy(window);
+    sfSprite_destroy(play->sprite);
+    sfTexture_destroy(play->texture);
+    sfSprite_destroy(play->sprit);
+    sfTexture_destroy(play->texte);
+    sfSprite_destroy(play->spri);
+    sfTexture_destroy(play->text);
+    sfRenderWindow_destroy(play->window);
 }
