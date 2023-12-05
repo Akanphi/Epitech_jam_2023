@@ -17,7 +17,6 @@ void even(meteor_t *evt)
 
 void destroy(meteor_t *win)
 {
-    sfRenderWindow_destroy(win->window);
     sfTexture_destroy(win->txt_fire);
     sfTexture_destroy(win->txt_fire1);
     sfTexture_destroy(win->txt_fire2);
@@ -33,14 +32,16 @@ void destroy(meteor_t *win)
 
 void display(meteor_t *win)
 {
+    sfSprite_setScale(win->spt_fire, win->size);
+    sfSprite_setScale(win->spt_fire1, win->size);
+    sfSprite_setScale(win->spt_fire2, win->size);
     sfText_setFont(win->score, win->record);
     sfText_setFont(win->scores, win->records);
     win->str = main1(win->goal);
     sfText_setString(win->score, win->str);
-    sfText_setString(win->scores, "scs:");
+    sfText_setString(win->scores, "score:");
     sfText_setPosition(win->score, win->pos_scr);
     clock1(win);
-    sfRenderWindow_clear(win->window, sfBlack);
     sfRenderWindow_drawSprite(win->window, win->spt_fire, NULL);
     sfRenderWindow_drawSprite(win->window, win->spt_fire1, NULL);
     sfRenderWindow_drawSprite(win->window, win->spt_fire2, NULL);
@@ -51,11 +52,13 @@ void display(meteor_t *win)
 
 void call( meteor_t *win)
 {
-    win->pos_scr.x = 80;
+    win->pos_scr.x = 150;
     win->pos_scr.y = 0;
     win->a = 20;
     win->b = 30;
     win->c = 40;
+    win->size.x = 2;
+    win->size.y = 2;
     win->clock = sfClock_create();
     win->spt_fire = sfSprite_create();
     win->spt_fire1 = sfSprite_create();
@@ -81,12 +84,11 @@ void call( meteor_t *win)
     win->pos_fire2.x = 500;
     win->pos_fire2.y = 0;
     sfSprite_setPosition(win->spt_fire2, win->pos_fire2);
-    win->video_mode.width = 800;
-    win->video_mode.height = 600;
-    win->video_mode.bitsPerPixel = 32;
+    win->video_mode.width = 1920; 
+    win->video_mode.height = 1080; 
+    win->video_mode.bitsPerPixel = 32; 
     win->window = sfRenderWindow_create(win->video_mode, "Window",
-    sfClose | sfResize, NULL);
-}
+                                        sfClose | sfResize, NULL);  } 
 
 int méteor(int argc, char **argv)
 {
