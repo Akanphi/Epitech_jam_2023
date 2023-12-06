@@ -41,6 +41,9 @@ typedef struct meteor
     sfVector2f pos_fire2;
     sfVector2f pos_scr;
     sfVector2f size;
+    sfIntRect rect;
+    sfIntRect rect1;
+    sfIntRect rect2;
     int goal;
     double a;
     double b;
